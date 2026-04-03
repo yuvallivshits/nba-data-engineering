@@ -1,0 +1,19 @@
+#!/bin/bash
+# Start Airflow standalone (scheduler + API server + triggerer)
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+
+source "$PROJECT_DIR/venv/bin/activate"
+source "$PROJECT_DIR/.env"
+
+export AIRFLOW_HOME
+export AIRFLOW__CORE__DAGS_FOLDER
+export AIRFLOW__CORE__LOAD_EXAMPLES
+export AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
+export AIRFLOW__API__PORT
+export PYTHONPATH
+export DUCKDB_PATH
+
+echo "Starting Airflow 3 standalone on port 8081..."
+airflow standalone

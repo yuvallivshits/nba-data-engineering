@@ -1,0 +1,24 @@
+venv/
+airflow/
+logs/
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.egg-info/
+
+# Data lake (Parquet files)
+data/
+
+# DuckDB
+*.duckdb
+*.duckdb.wal
+
+# Great Expectations (generated, uncommitted)
+gx/uncommitted/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/settings.json
