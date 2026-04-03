@@ -1,6 +1,7 @@
 from datetime import datetime
-from airflow.sdk import DAG
+
 from airflow.operators.python import PythonOperator
+from airflow.sdk import DAG
 
 
 def hello():
