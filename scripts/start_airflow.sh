@@ -16,6 +16,11 @@ export PYTHONPATH
 export GOOGLE_APPLICATION_CREDENTIALS
 export GCP_PROJECT_ID
 export BQ_DATASET
+export no_proxy
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY
+export AIRFLOW__CORE__MP_START_METHOD
+export PYTHONFAULTHANDLER
+export OTEL_SDK_DISABLED
 
 echo "Starting Airflow 3 standalone on port 8081..."
 airflow standalone
