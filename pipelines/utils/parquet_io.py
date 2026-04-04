@@ -1,5 +1,6 @@
 import shutil
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 import pyarrow as pa
@@ -51,7 +52,7 @@ def write_parquet(
 
 def read_parquet(
     path: str,
-    filters: list[tuple[str, str, str]] | None = None,
+    filters: list[Any] | None = None,
 ) -> pd.DataFrame:
     """
     Read Parquet files into a DataFrame.
