@@ -37,6 +37,14 @@ def init_dataset(client: bigquery.Client) -> None:
     print(f"Dataset ready: {dataset_id}")
 
 
+
+
+def get_table_schema(table_name: str) -> list[SchemaField]:
+    client = get_client()
+    table_ref = f"{get_dataset_ref()}.{table_name}"
+    table = client.get_table(table_ref)
+    return table.schema
+
 def init_schema(client: bigquery.Client) -> None:
     """
     Create all gold layer tables in BigQuery if they don't already exist.
@@ -44,7 +52,6 @@ def init_schema(client: bigquery.Client) -> None:
     """
     init_dataset(client)
     dataset = get_dataset_ref()
-
     tables = {
         # Calendar table — generated once for the 2024-25 season.
         # Used to filter/group by week, month, etc. in the dashboard.
@@ -70,8 +77,7 @@ def init_schema(client: bigquery.Client) -> None:
             SchemaField("nickname", "STRING", mode="REQUIRED"),
             SchemaField("city", "STRING", mode="REQUIRED"),
             SchemaField("state", "STRING", mode="REQUIRED"),
-            SchemaField("conference", "STRING", mode="NULLABLE"),
-            SchemaField("division", "STRING", mode="NULLABLE"),
+            SchemaField("year_founded", "INTEGER", mode="NULLABLE"),
             SchemaField("updated_at", "TIMESTAMP", mode="REQUIRED"),
         ],
 
