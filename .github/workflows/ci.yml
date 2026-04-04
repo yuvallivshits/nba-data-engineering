@@ -67,4 +67,4 @@ jobs:
         run: pip install bandit>=1.7.0
 
       - name: Scan for security issues (bandit)
-        run: bandit -r pipelines/ dags/ -ll --format github
+        run: bandit -r pipelines/ dags/ -ll --format screen

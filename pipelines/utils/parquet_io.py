@@ -51,7 +51,7 @@ def write_parquet(
 
 def read_parquet(
     path: str,
-    filters: list[tuple] | None = None,
+    filters: list[tuple[str, str, str]] | None = None,
 ) -> pd.DataFrame:
     """
     Read Parquet files into a DataFrame.

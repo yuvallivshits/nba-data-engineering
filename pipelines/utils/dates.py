@@ -1,6 +1,5 @@
 from datetime import date, timedelta
 
-
 SEASON_DATE_RANGES: dict[str, tuple[date, date]] = {
     "2024-25": (date(2024, 10, 22), date(2025, 6, 22)),
 }
