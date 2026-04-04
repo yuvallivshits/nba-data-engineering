@@ -17,6 +17,9 @@ data/
 # Great Expectations (generated, uncommitted)
 gx/uncommitted/
 
+# Credentials — never commit these
+secrets/
+
 # macOS
 .DS_Store
 

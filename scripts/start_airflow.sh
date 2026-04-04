@@ -13,7 +13,9 @@ export AIRFLOW__CORE__LOAD_EXAMPLES
 export AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
 export AIRFLOW__API__PORT
 export PYTHONPATH
-export DUCKDB_PATH
+export GOOGLE_APPLICATION_CREDENTIALS
+export GCP_PROJECT_ID
+export BQ_DATASET
 
 echo "Starting Airflow 3 standalone on port 8081..."
 airflow standalone
