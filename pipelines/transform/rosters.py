@@ -5,7 +5,6 @@ import pandas as pd
 from pipelines.utils.parquet_io import read_parquet, write_parquet
 
 
-
 def transform() -> None:
     df = read_parquet(f"{os.environ['BRONZE_PATH']}/rosters/data.parquet")
 

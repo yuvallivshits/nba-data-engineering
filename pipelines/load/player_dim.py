@@ -5,6 +5,7 @@ from google.cloud import bigquery
 from pipelines.utils.bigquery_client import get_client, get_dataset_ref
 from pipelines.utils.parquet_io import read_parquet
 
+
 def load_player_dim() -> None:
     client = get_client()
     table_ref = f"{get_dataset_ref()}.player_dim"

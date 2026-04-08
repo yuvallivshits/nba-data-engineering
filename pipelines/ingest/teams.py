@@ -5,6 +5,7 @@ from nba_api.stats.static import teams
 
 from pipelines.utils.parquet_io import write_parquet
 
+
 def ingest() -> None:
     teams_list = teams.get_teams()
     teams_df = pd.DataFrame(teams_list)
