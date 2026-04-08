@@ -43,7 +43,7 @@ def get_table_schema(table_name: str) -> list[SchemaField]:
     client = get_client()
     table_ref = f"{get_dataset_ref()}.{table_name}"
     table = client.get_table(table_ref)
-    return table.schema
+    return list(table.schema)
 
 def init_schema(client: bigquery.Client) -> None:
     """

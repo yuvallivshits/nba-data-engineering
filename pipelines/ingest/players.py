@@ -1,7 +1,8 @@
 import os
-import pandas as pd
-from pipelines.utils.parquet_io import write_parquet
+
 from nba_api.stats.endpoints import playerindex
+
+from pipelines.utils.parquet_io import write_parquet
     
 def ingest() -> None:
     df = playerindex.PlayerIndex(season='2024-25', historical_nullable=1, timeout=30).get_data_frames()[0]

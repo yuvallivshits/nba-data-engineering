@@ -1,7 +1,9 @@
 import os
+
 import pandas as pd
-from pipelines.utils.parquet_io import write_parquet
 from nba_api.stats.static import teams
+
+from pipelines.utils.parquet_io import write_parquet
 
 def ingest() -> None:
     teams_list = teams.get_teams()

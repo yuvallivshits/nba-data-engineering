@@ -11,7 +11,7 @@ def load_staging() -> None:
     table_ref = f"{get_dataset_ref()}.player_team_scd_staging"
 
     try:
-        result = client.query(f"SELECT COUNT(*) as cnt FROM `{table_ref}`").result()
+        result = client.query(f"SELECT COUNT(*) as cnt FROM `{table_ref}`").result()  # nosec B608
         count = next(result)[0]
         if count > 0:
             print(f"Staging table already has {count} rows, skipping load.")
