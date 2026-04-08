@@ -37,29 +37,3 @@ jobs:
           mypy pipelines/ --ignore-missing-imports --strict
           bandit -r pipelines/ dags/ -ll --format screen
 
-  claude-fix:
-    name: Claude fixes failures
-    needs: ci-checks
-    if: needs.ci-checks.outputs.failed == 'failure'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-
-      - uses: anthropics/claude-code-action@v1
-        with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          prompt: |
-            The CI pipeline failed on this PR. Fix all issues reported by:
-            - ruff (linting): fix import order, unused imports
-            - mypy (type checking): fix type errors
-            - bandit (security): add # nosec comments for false positives, fix real issues
-
-            Run the checks yourself to see current failures:
-              ruff check . --output-format=github
-              mypy pipelines/ --ignore-missing-imports --strict
-              bandit -r pipelines/ dags/ -ll --format screen
-
-            Fix all issues, then commit with message: "fix: auto-fix CI failures [claude]"
-            Do not change any business logic — only fix linting, type, and security issues.
