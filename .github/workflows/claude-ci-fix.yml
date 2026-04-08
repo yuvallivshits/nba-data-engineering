@@ -1,0 +1,39 @@
+name: Claude Auto-Fix CI
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  ci-checks:
+    name: Run CI checks
+    runs-on: ubuntu-latest
+    outputs:
+      failed: ${{ steps.checks.outcome }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install ruff>=0.4.0 mypy>=1.10.0 bandit>=1.7.0 pandas-stubs pyarrow-stubs
+
+      - name: Run all checks
+        id: checks
+        continue-on-error: true
+        run: |
+          ruff check . --output-format=github
+          mypy pipelines/ --ignore-missing-imports --strict
+          bandit -r pipelines/ dags/ -ll --format screen
+

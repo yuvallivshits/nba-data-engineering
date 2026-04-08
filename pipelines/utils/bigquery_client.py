@@ -37,6 +37,14 @@ def init_dataset(client: bigquery.Client) -> None:
     print(f"Dataset ready: {dataset_id}")
 
 
+
+
+def get_table_schema(table_name: str) -> list[SchemaField]:
+    client = get_client()
+    table_ref = f"{get_dataset_ref()}.{table_name}"
+    table = client.get_table(table_ref)
+    return list(table.schema)
+
 def init_schema(client: bigquery.Client) -> None:
     """
     Create all gold layer tables in BigQuery if they don't already exist.
@@ -44,7 +52,6 @@ def init_schema(client: bigquery.Client) -> None:
     """
     init_dataset(client)
     dataset = get_dataset_ref()
-
     tables = {
         # Calendar table — generated once for the 2024-25 season.
         # Used to filter/group by week, month, etc. in the dashboard.
@@ -70,19 +77,27 @@ def init_schema(client: bigquery.Client) -> None:
             SchemaField("nickname", "STRING", mode="REQUIRED"),
             SchemaField("city", "STRING", mode="REQUIRED"),
             SchemaField("state", "STRING", mode="REQUIRED"),
-            SchemaField("conference", "STRING", mode="NULLABLE"),
-            SchemaField("division", "STRING", mode="NULLABLE"),
+            SchemaField("year_founded", "INTEGER", mode="NULLABLE"),
             SchemaField("updated_at", "TIMESTAMP", mode="REQUIRED"),
         ],
 
-        # Static player info — name, active status only.
-        # No team_id here — team allocation lives in player_team_scd.
+        # Static player info — current team included (SCD1 on team_id).
+        # Full trade history lives in player_team_scd.
         "player_dim": [
             SchemaField("player_id", "INTEGER", mode="REQUIRED"),
             SchemaField("full_name", "STRING", mode="REQUIRED"),
             SchemaField("first_name", "STRING", mode="REQUIRED"),
             SchemaField("last_name", "STRING", mode="REQUIRED"),
-            SchemaField("is_active", "BOOLEAN", mode="REQUIRED"),
+            SchemaField("team_id", "INTEGER", mode="NULLABLE"),
+            SchemaField("jersey_number", "STRING", mode="NULLABLE"),
+            SchemaField("position", "STRING", mode="NULLABLE"),
+            SchemaField("height", "STRING", mode="NULLABLE"),
+            SchemaField("weight", "STRING", mode="NULLABLE"),
+            SchemaField("college", "STRING", mode="NULLABLE"),
+            SchemaField("country", "STRING", mode="NULLABLE"),
+            SchemaField("draft_year", "INTEGER", mode="NULLABLE"),
+            SchemaField("draft_round", "INTEGER", mode="NULLABLE"),
+            SchemaField("draft_number", "INTEGER", mode="NULLABLE"),
             SchemaField("updated_at", "TIMESTAMP", mode="REQUIRED"),
         ],
 
@@ -90,7 +105,6 @@ def init_schema(client: bigquery.Client) -> None:
         # New row on every trade. To find a player's team on a specific game date:
         #   WHERE player_id = ? AND valid_from <= game_date AND valid_to >= game_date
         "player_team_scd": [
-            SchemaField("surrogate_key", "INTEGER", mode="REQUIRED"),
             SchemaField("player_id", "INTEGER", mode="REQUIRED"),
             SchemaField("team_id", "INTEGER", mode="REQUIRED"),
             SchemaField("valid_from", "DATE", mode="REQUIRED"),
