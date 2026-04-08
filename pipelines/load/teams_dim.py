@@ -2,7 +2,6 @@ import os
 
 from google.cloud import bigquery
 
-
 from pipelines.utils.bigquery_client import get_client, get_dataset_ref, get_table_schema
 from pipelines.utils.parquet_io import read_parquet
 

@@ -1,6 +1,8 @@
-from pipelines.utils.parquet_io import read_parquet, write_parquet
 import os
+
 import pandas as pd
+
+from pipelines.utils.parquet_io import read_parquet, write_parquet
 
 def transform() -> None:
     teams_df = read_parquet(f"{os.environ['BRONZE_PATH']}/teams/data.parquet")
